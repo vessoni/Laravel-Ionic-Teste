@@ -6,6 +6,7 @@ use App\Forms\ProductForm;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class ProductsController extends Controller
 {
@@ -41,9 +42,12 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FormBuilder $formBuilder)
     {
-        //
+        $form = $formBuilder->create(ProductForm::class);
+        Product::create($form->getFieldValues());
+
+        return redirect()->route('admin.products.index');
     }
 
     /**

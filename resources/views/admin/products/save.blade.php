@@ -8,7 +8,7 @@
 
                 </div>
                 <div class="panel-body">
-                    <?php $form->add('submit', 'submit', ['label' => '<span class="glyphicon-floppy-disk" aria-hidden="true"></span>'])?>
+                    <?php $form->add('submit', 'submit', ['label' => '<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>'])?>
                     {!! form($form) !!}
 
                 </div>
