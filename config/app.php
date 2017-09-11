@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Kris\LaravelFormBuilder\FormBuilderServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
 
         /*
