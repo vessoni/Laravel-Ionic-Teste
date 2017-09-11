@@ -15,10 +15,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(FormBuilder $formBuilder)
     {
         $products = Product::paginate(5);
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products','formBuilder'));
     }
 
     /**
@@ -28,6 +28,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
+
         $form = \FormBuilder::create(ProductForm::class, [
             'method' => 'POST',
             'url' => route('admin.products.store')
@@ -69,7 +70,16 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $form = \FormBuilder::create(ProductForm::class, [
+            'method' => 'PUT',
+            'url' => route('admin.products.update', ['id' => $product->id]),
+            'model' => $product
+        ]);
+        $title = "Editar Produto";
+        return (view('admin.products.save', compact('form','title')));
+
+
+
     }
 
     /**
@@ -79,9 +89,13 @@ class ProductsController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(FormBuilder $formBuilder, Product $product)
     {
-        //
+        $form = $formBuilder->create(ProductForm::class);
+        $product->fill($form->getFieldValues());
+        $product->save();
+
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -92,6 +106,7 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('admin.products.index');
     }
 }
